@@ -7,10 +7,76 @@ html
     font-size: 16px;
     background-color: #f3f3f3;
     color: #343434;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 body
 {
     height: min(90vh);
     width: min(90vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+#big-title
+{
+    font-size: 1.75rem;
+    margin: 1rem;
+    font-weight: bold;
+}
+
+#game-window
+{
+    border-radius: 2rem;
+    width: min(30rem);
+    height: min(40rem);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    border: 1px solid black;
+}
+
+#game-grid
+{
+    margin: 1rem;
+    display: grid;
+    width: min(15rem);
+    height: min(15rem);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    border: 1px solid black;
+    > button 
+    {
+        background-color: #f3f3f3;
+    }
+    > button:hover
+    {
+        background-color: rgba(149, 143, 143, 0.44);
+    }
+}
+
+#reset-button
+{
+    margin: 1rem;
+    padding: 0.65rem;
+    background-color: #343434;
+    color: #f3f3f3;
+    border-radius: 1rem;
+    border: none;
+}
+
+#reset-button:hover
+{
+    border: crimson 1px solid;
+}
+
+
