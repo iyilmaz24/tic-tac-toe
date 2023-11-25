@@ -31,6 +31,11 @@ body
     font-weight: bold;
 }
 
+#big-title:hover
+{
+    transform: scale(1.2);
+}
+
 #game-window
 {
     border-radius: 2rem;
@@ -56,11 +61,17 @@ body
     border: 1px solid black;
     > button 
     {
-        background-color: #f3f3f3;
+        background-color: #ffffff;
+        border: 1px solid #343434;
+        font-size: 1.75rem;
+
     }
     > button:hover
     {
-        background-color: rgba(149, 143, 143, 0.44);
+        transform: scale(1.02);
+        background-color: #3434346b;
+        color: #f3f3f3;
+        font-size: 2.25rem;
     }
 }
 
@@ -71,12 +82,14 @@ body
     background-color: #343434;
     color: #f3f3f3;
     border-radius: 1rem;
-    border: none;
+    border: 1px transparent solid;
+    width: 10rem;
 }
 
 #reset-button:hover
 {
     border: crimson 1px solid;
+    transform: scale(1.05);
 }
 
 
