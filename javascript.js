@@ -1,6 +1,8 @@
 
 addEventListener("DOMContentLoaded", () => {
 
+    bigTitle = document.getElementById("big-title");
+
     gameGrid = document.getElementById("game-grid");
     gameGrid.innerHTML = "";
     for(let i = 0; i < 9; i++) // use a for loop to populate grid with tiles
@@ -11,7 +13,9 @@ addEventListener("DOMContentLoaded", () => {
     gridTiles = document.getElementsByClassName("tile");
     for(let i = 0; i < 9; i++)
     {
-        gridTiles[i].addEventListener("click", () => {console.log("hello")});
+        gridTiles[i].addEventListener("click", () => {
+            gameBoard.placeMarker(i);
+        });
         // write a callback function that validates tile is empty,
             // places the piece, and then checks if game is won or not
                 // keep the functionality in gameBoard but call it in game controller
@@ -21,15 +25,25 @@ addEventListener("DOMContentLoaded", () => {
     // consider pros and cons of making it a IIFE
 
     gameBoard = (function() {
+        const marker = "X";
         const boardArray = [];
         const displayBoard = () => {
             for(let i = 0; i < 9; i++) {
                 console.log(boardArray[i]);
             } 
         }
-        const placeMarker = (marker, position) => {
-            // check the tile isnt occupied before placing marker
-            boardArray[position] = marker;
+        const placeMarker = (position) => {
+            if(gridTiles[position].innerHTML === "")
+            {
+                boardArray[position] = marker;
+                gridTiles[position].innerHTML = marker;
+            }
+            else {
+                // changes title color to crimson and makes it shake
+                bigTitle.classList.add("shakeAnimation");
+                setTimeout(() => {bigTitle.classList.remove("shakeAnimation")}, 800);
+
+            }
             // remove the click event listener so tile cant be clicked
                 // remove the click event listener here or in the game controller
         }
@@ -44,10 +58,6 @@ addEventListener("DOMContentLoaded", () => {
         return {displayBoard, placeMarker};
 
     }());
-
-    gameBoard.placeMarker("X", 4);
-    gameBoard.placeMarker("O", 8);
-    gameBoard.displayBoard();
 
 
 })
