@@ -13,19 +13,28 @@ addEventListener("DOMContentLoaded", () => {
     gridTiles = document.getElementsByClassName("tile");
     for(let i = 0; i < 9; i++)
     {
-        gridTiles[i].addEventListener("click", () => {
-            gameController.makeMove(i);
-        });
+        gridTiles[i].addEventListener("click", (e) => {gameController.makeMove(e.target.value)});
     }
 
     gameController = (function() {
         const makeMove = (i) => {
-            gameBoard.placeMarker(i);
-            gameBoard.gameStatusCheck();
+            if(gridTiles[i].innerHTML === "")
+            {
+                gameBoard.placeMarker(i);
+                gameBoard.gameStatusCheck();
+            }
+            else
+            {
+                // changes game title color to crimson and makes it shake
+                bigTitle.classList.add("shakeAnimation");
+                setTimeout(() => {bigTitle.classList.remove("shakeAnimation")}, 800);
+            }
         }
 
         return {makeMove};
     } ());
+
+
 
     gameBoard = (function() {
         const marker = "X";
@@ -41,27 +50,25 @@ addEventListener("DOMContentLoaded", () => {
                 boardArray[position] = marker;
                 gridTiles[position].innerHTML = marker;
             }
-            else {
-                // changes title color to crimson and makes it shake
-                bigTitle.classList.add("shakeAnimation");
-                setTimeout(() => {bigTitle.classList.remove("shakeAnimation")}, 800);
-
-            }
-            // remove the click event listener so tile cant be clicked
-                // remove the click event listener here or in the game controller
         }
+        
         const resetBoard = () => {
-            // make all tiles empty of markers, empty out boardArray
-                // give all click event listeners back to tiles
+// make all tiles empty of markers, empty out boardArray
         }
         const gameStatusCheck = () => {
             console.log("game status checker implemented here")
-            // check game won or not through board array using an algo
+// check game won or not through board array using an algo
         }
 
         return {displayBoard, placeMarker, gameStatusCheck};
 
     }());
 
+// implement the functionality for the resetBoard function and link it to the 'Reset Board' button
+// implement 2nd player feature or randomized choice computer player
+    // make game controller call the computer player to make a move after player
+// implement gameStatusCheck
+    // use game controller to check the game status after a move and call resetBoard accordingly
+    // implement a on-screen pop up or something telling user they won or lost through game controller
 
 })
