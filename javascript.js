@@ -30,6 +30,16 @@ addEventListener("DOMContentLoaded", () => {
             {
                 gameBoard.placeMarker(i);
                 gameBoard.gameStatusCheck();
+
+                // if(gameStatusCheck == false) -> computer makes move
+                // if(gameStatusCheck == true) -> end game, find who won, congratulate them
+
+                // after player makes move, computerPlayer picks a random open space and gameBoard marks it
+                setTimeout(() => {
+                    index = computerPlayer.makeRandomChoice(gameBoard.returnOpenSpaces());
+                    gameBoard.placeMarker(index, "O");
+                    gameBoard.gameStatusCheck();
+                }, 1000);
             }
             else
             {
@@ -46,10 +56,9 @@ addEventListener("DOMContentLoaded", () => {
     // use gameBoard to manage the grid + game status, and place + track pieces
     gameBoard = (function() {
 
-        const marker = "X";
         let boardArray = [];
 
-        const placeMarker = (position) => {
+        const placeMarker = (position, marker = "X") => {
             if(gridTiles[position].innerHTML === "")
             {
                 boardArray[position] = marker;
@@ -67,10 +76,29 @@ addEventListener("DOMContentLoaded", () => {
             console.log("game status checker implemented here")
             // check game won or not through board array using an algo
         }
+        const returnOpenSpaces = () => {
+            let returnArray = [];
+            for(let i = 0; i < 9; i++)
+            {
+                if(gridTiles[i].innerHTML == "")
+                {
+                    returnArray.push(i);
+                }
+            } // return all currently possible/legal moves
+            return returnArray;
+        }
 
-        return {placeMarker, gameStatusCheck, resetBoard};
+        return {placeMarker, gameStatusCheck, resetBoard, returnOpenSpaces};
+    } ());
 
-    }());
+    computerPlayer = (function() {
+        // returns a random choice from currently open spaces to simulate opponent
+        const makeRandomChoice = (array) => {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        return {makeRandomChoice};
+    } ());
 
 // implement 2nd player feature or randomized choice computer player
     // make game controller call the computer player to make a move after player
