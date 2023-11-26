@@ -26,20 +26,21 @@ addEventListener("DOMContentLoaded", () => {
             resetButton.addEventListener("click", () => {gameBoard.resetBoard()});
         }
         const makeMove = (i) => {
-            if(gridTiles[i].innerHTML === "")
+            if(gridTiles[i].innerHTML == "")
             {
                 gameBoard.placeMarker(i);
-                gameBoard.gameStatusCheck();
 
-                // if(gameStatusCheck == false) -> computer makes move
-                // if(gameStatusCheck == true) -> end game, find who won, congratulate them
-
-                // after player makes move, computerPlayer picks a random open space and gameBoard marks it
-                setTimeout(() => {
-                    index = computerPlayer.makeRandomChoice(gameBoard.returnOpenSpaces());
-                    gameBoard.placeMarker(index, "O");
-                    gameBoard.gameStatusCheck();
-                }, 1000);
+                if(gameBoard.gameStatusCheck() == false){ // if player won, this will be skipped to next if statement, else computer plays
+                    setTimeout(() => {
+                        index = computerPlayer.makeRandomChoice(gameBoard.returnOpenSpaces());
+                        gameBoard.placeMarker(index, "O");
+                        gameBoard.gameStatusCheck();
+                    }, 1000);
+                }                // if above was skipped, we congratulate winner because of gameStatusCheck returning 'true', else
+                if(gameBoard.gameStatusCheck() == true) // after computer plays, we check again to see if someone won through gameStatusCheck
+                {                                      
+                    console.log("congratulate the winner here");
+                }
             }
             else
             {
@@ -73,8 +74,8 @@ addEventListener("DOMContentLoaded", () => {
             }
         }
         const gameStatusCheck = () => {
-            console.log("game status checker implemented here")
             // check game won or not through board array using an algo
+            return false;
         }
         const returnOpenSpaces = () => {
             let returnArray = [];
@@ -84,15 +85,16 @@ addEventListener("DOMContentLoaded", () => {
                 {
                     returnArray.push(i);
                 }
-            } // return all currently possible/legal moves
+            } // return all currently possible move indices in an array
             return returnArray;
         }
 
         return {placeMarker, gameStatusCheck, resetBoard, returnOpenSpaces};
     } ());
 
+
     computerPlayer = (function() {
-        // returns a random choice from currently open spaces to simulate opponent
+        // makes a random choice from currently open spaces to simulate opponent
         const makeRandomChoice = (array) => {
             return array[Math.floor(Math.random() * array.length)];
         }
@@ -100,13 +102,16 @@ addEventListener("DOMContentLoaded", () => {
         return {makeRandomChoice};
     } ());
 
-// implement 2nd player feature or randomized choice computer player
-    // make game controller call the computer player to make a move after player
+
+    gameController.populateTiles();
+    gameController.addClickListeners();
+
+
+
+
 // implement gameStatusCheck
     // use game controller to check the game status after a move and call resetBoard accordingly
     // implement a on-screen pop up or something telling user they won or lost through game controller
 
-    gameController.populateTiles();
-    gameController.addClickListeners();
 
 })
