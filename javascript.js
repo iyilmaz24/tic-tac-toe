@@ -25,20 +25,42 @@ addEventListener("DOMContentLoaded", () => {
             resetButton = document.getElementById("reset-button");
             resetButton.addEventListener("click", () => {gameBoard.resetBoard()});
         }
+        const disableButtons = () => {
+            // restrict button click input while computer making move
+            for(let i = 0; i < 9; i++)
+            {
+                gridTiles[i].setAttribute("disabled", "");
+            }
+            // we restrict reset button as well, since if game is reset while computer making move:
+                // the computer move bleeds over into the newly created game
+            resetButton.setAttribute("disabled", "");
+        }
+        const enableButtons = () => {
+            // un-restrict formerly restricted button click input
+            for(let i = 0; i < 9; i++)
+            {
+                gridTiles[i].removeAttribute("disabled");
+            }
+            resetButton.removeAttribute("disabled");
+        }
         const makeMove = (i) => {
             if(gridTiles[i].innerHTML == "")
             {
                 gameBoard.placeMarker(i);
+                disableButtons();
 
                 if(gameBoard.gameStatusCheck() == false){ // if player won, this will be skipped to next if statement, else computer plays
                     setTimeout(() => {
                         index = computerPlayer.makeRandomChoice(gameBoard.returnOpenSpaces());
                         gameBoard.placeMarker(index, "O");
                         gameBoard.gameStatusCheck();
-                    }, 1000);
+                        enableButtons();
+                    }, 750);
                 }                // if above was skipped, we congratulate winner because of gameStatusCheck returning 'true', else
                 if(gameBoard.gameStatusCheck() == true) // after computer plays, we check again to see if someone won through gameStatusCheck
-                {                         
+                {                     
+                    disableButtons();
+
                     //if(gameBoard.playerWon == "true") {
                     bigTitle.innerHTML = "You Won!";
                     bigTitle.classList.add("greenText");  
@@ -52,7 +74,8 @@ addEventListener("DOMContentLoaded", () => {
                     setTimeout(() => {bigTitle.innerHTML = "Tic Tac Toe"; 
                     bigTitle.classList.remove("greenText");
                     bigTitle.classList.remove("redText");
-                    gameBoard.resetBoard(); }, 5000);
+                    gameBoard.resetBoard(); 
+                    enableButtons(); }, 5000);
                     // gameBoard.playerWon = null;
                 }
             }
@@ -134,7 +157,7 @@ addEventListener("DOMContentLoaded", () => {
 
 
 // implement gameStatusCheck
-    // use game controller to check the game status after a move and call resetBoard accordingly
+    // use game controller to check the game status after a move
 
 
 })
