@@ -38,8 +38,22 @@ addEventListener("DOMContentLoaded", () => {
                     }, 1000);
                 }                // if above was skipped, we congratulate winner because of gameStatusCheck returning 'true', else
                 if(gameBoard.gameStatusCheck() == true) // after computer plays, we check again to see if someone won through gameStatusCheck
-                {                                      
-                    console.log("congratulate the winner here");
+                {                         
+                    //if(gameBoard.playerWon == "true") {
+                    bigTitle.innerHTML = "You Won!";
+                    bigTitle.classList.add("greenText");  
+                    // };      
+
+                    //if(gameBoard.playerWon == "false") {
+                    bigTitle.innerHTML = "You Lost!";
+                    bigTitle.classList.add("redText");     
+                    // };
+
+                    setTimeout(() => {bigTitle.innerHTML = "Tic Tac Toe"; 
+                    bigTitle.classList.remove("greenText");
+                    bigTitle.classList.remove("redText");
+                    gameBoard.resetBoard(); }, 5000);
+                    // gameBoard.playerWon = null;
                 }
             }
             else
@@ -57,6 +71,7 @@ addEventListener("DOMContentLoaded", () => {
     // use gameBoard to manage the grid + game status, and place + track pieces
     gameBoard = (function() {
 
+        let playerWon = null;
         let boardArray = [];
 
         const placeMarker = (position, marker = "X") => {
@@ -75,6 +90,15 @@ addEventListener("DOMContentLoaded", () => {
         }
         const gameStatusCheck = () => {
             // check game won or not through board array using an algo
+
+            // if player wins:
+                // playerWon = true
+                // return true
+
+            // if computer wins
+                // playerWon = false
+                // return true
+
             return false;
         }
         const returnOpenSpaces = () => {
@@ -111,7 +135,6 @@ addEventListener("DOMContentLoaded", () => {
 
 // implement gameStatusCheck
     // use game controller to check the game status after a move and call resetBoard accordingly
-    // implement a on-screen pop up or something telling user they won or lost through game controller
 
 
 })
